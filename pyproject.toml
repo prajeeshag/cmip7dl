@@ -1,0 +1,16 @@
+[project]
+name = "cmip7dl"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "intake-esgf>=2026.9.28",
+    "typer>=0.27.3",
+]
+
+[project.scripts]
+cmip7dl = "cmip7dl.cli:app"
+
+[tool.uv]
+package = true
