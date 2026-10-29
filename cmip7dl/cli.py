@@ -8,16 +8,16 @@ import pandas as pd
 
 CACHE_DIR = Path.home() / "CMIP7_DATA"
 
-AVAILABLE_DATA_FILE = CACHE_DIR / "available_data.csv"
+AVAILABLE_DATA_FILE = CACHE_DIR / "cmip7_available_data.xlsx"
 
-NEW_DATA_FILE = CACHE_DIR / "new_data.csv"
+NEW_DATA_FILE = CACHE_DIR / "cmip7_new_data.xlsx"
 
 conf.set(local_cache=[str(CACHE_DIR)])
 
 
 app = Typer()
 
-VARIABLES = ("pr", "tas", "gpp", "npp")
+VARIABLES = ("pr", "tas", "gpp", "npp", "tos")
 EXPERIMENTS = (
     "historical",
     "esm-hist",
@@ -41,7 +41,7 @@ def main(exclude_sources: list[str] = [], list_sources: bool = False):
     cat = ESGFCatalog()
 
     if AVAILABLE_DATA_FILE.exists():
-        available_df = pd.read_csv(AVAILABLE_DATA_FILE)
+        available_df = pd.read_excel(AVAILABLE_DATA_FILE)
     else:
         available_df = pd.DataFrame()
 
@@ -113,8 +113,8 @@ def main(exclude_sources: list[str] = [], list_sources: bool = False):
 
     current_df = pd.DataFrame(data_list)
     available_df, new_df = merge_data(current_df, available_df)
-    available_df.to_csv(AVAILABLE_DATA_FILE, index=False)
-    new_df.to_csv(NEW_DATA_FILE, index=False)
+    available_df.to_excel(AVAILABLE_DATA_FILE, index=False)
+    new_df.to_excel(NEW_DATA_FILE, index=False)
     print(f"New records/files: {len(new_df)}")
 
 
